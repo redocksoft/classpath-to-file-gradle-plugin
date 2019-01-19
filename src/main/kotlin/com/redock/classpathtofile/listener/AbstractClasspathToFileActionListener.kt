@@ -1,40 +1,33 @@
 package com.redock.classpathtofile.listener
 
-import com.redock.classpathtofile.plugin.ClasspathToFilePluginExtension
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskActionListener
-import org.gradle.api.internal.file.AbstractFileCollection
+import org.gradle.api.file.FileCollection
 import org.gradle.api.logging.Logger
-import org.gradle.api.logging.Logging
-import org.gradle.api.tasks.JavaExec
-import org.gradle.api.tasks.TaskDependency
 import org.gradle.process.CommandLineArgumentProvider
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 
-class JavaExecActionListener(private val extension: ClasspathToFilePluginExtension): TaskActionListener {
-  companion object {
-    private val log: Logger = Logging.getLogger(JavaExecActionListener::class.java)
-
-    object EmptyFileCollection: AbstractFileCollection() {
-      override fun getFiles(): MutableSet<File> = mutableSetOf()
-      override fun getBuildDependencies(): TaskDependency? = null
-      override fun getDisplayName(): String = "EmptyFileCollection"
-    }
-  }
+/**
+ * Unfortunately JavaExecSpec and Test don't share a common interface, though they both provide
+ * `jvmArgumentProviders` and `classpath`. Use this abstract class to encapsulate the shared logic.
+ */
+abstract class AbstractClasspathToFileActionListener: TaskActionListener {
+  protected abstract val log: Logger
 
   private lateinit var cpArgFile: File
 
-  override fun beforeActions(task: Task) {
-    if(task !is JavaExec || !extension.shouldApply()) {
-      return
-    }
+  fun classpathToFile(
+    task: Task,
+    jvmArgumentProviders: MutableList<CommandLineArgumentProvider>,
+    classpath: FileCollection
+  ) {
 
     cpArgFile = File.createTempFile("classpath-${task.project.name.replace(" ", "_")}", null)
 
     log.info("Moving java classpath to argument file for task ${task.name}")
-    task.jvmArgumentProviders.add(CommandLineArgumentProvider {
+    jvmArgumentProviders.add(CommandLineArgumentProvider {
       listOf("@$cpArgFile")
     })
 
@@ -43,7 +36,7 @@ class JavaExecActionListener(private val extension: ClasspathToFilePluginExtensi
     OutputStreamWriter(FileOutputStream(cpArgFile), Charsets.UTF_8).use {
       it.write("-cp \"\\")
       it.write("\n")
-      task.classpath.files.forEachIndexed { i, file  ->
+      classpath.files.forEachIndexed { i, file  ->
         if(i > 0) {
           it.write(":\\\n")
         }
@@ -52,8 +45,6 @@ class JavaExecActionListener(private val extension: ClasspathToFilePluginExtensi
       }
       it.write("\"")
     }
-
-    task.classpath = EmptyFileCollection
   }
 
   override fun afterActions(task: Task) {

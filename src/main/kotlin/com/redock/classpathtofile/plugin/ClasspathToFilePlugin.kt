@@ -1,6 +1,7 @@
 package com.redock.classpathtofile.plugin
 
-import com.redock.classpathtofile.listener.JavaExecActionListener
+import com.redock.classpathtofile.listener.JavaExecSpecActionListener
+import com.redock.classpathtofile.listener.TestActionListener
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -14,7 +15,8 @@ class ClasspathToFilePlugin: Plugin<Project> {
     }
 
     val ext = project.extensions.create("classpathToFile", ClasspathToFilePluginExtension::class.java, project)
-    project.gradle.addListener(JavaExecActionListener(ext))
+    project.gradle.addListener(JavaExecSpecActionListener(ext))
+    project.gradle.addListener(TestActionListener(ext))
   }
 
   private fun jvmRequirementError() {
