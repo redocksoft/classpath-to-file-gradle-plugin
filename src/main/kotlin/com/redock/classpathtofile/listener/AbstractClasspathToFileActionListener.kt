@@ -14,6 +14,11 @@ import java.io.OutputStreamWriter
  * `jvmArgumentProviders` and `classpath`. Use this abstract class to encapsulate the shared logic.
  */
 abstract class AbstractClasspathToFileActionListener: TaskActionListener {
+  companion object {
+    private val PATH_SEP = System.getProperty("path.separator")
+    private val LINE_SEP = System.getProperty("line.separator")
+  }
+
   protected abstract val log: Logger
 
   private lateinit var cpArgFile: File
@@ -35,13 +40,15 @@ abstract class AbstractClasspathToFileActionListener: TaskActionListener {
     // see https://docs.oracle.com/javase/9/tools/java.htm#JSWOR-GUID-4856361B-8BFD-4964-AE84-121F5F6CF111
     OutputStreamWriter(FileOutputStream(cpArgFile), Charsets.UTF_8).use {
       it.write("-cp \"\\")
-      it.write("\n")
+      it.write(LINE_SEP)
       classpath.files.forEachIndexed { i, file  ->
         if(i > 0) {
-          it.write(":\\\n")
+          it.write(PATH_SEP)
+          it.write("\\")
+          it.write(LINE_SEP)
         }
 
-        it.write(file.canonicalPath)
+        it.write(file.canonicalPath.replace("\\", "\\\\"))
       }
       it.write("\"")
     }
