@@ -1,0 +1,35 @@
+= Classpath to File Gradle Plugin
+:pluginId: com.redock.classpathtofile
+:pluginVersion: 0.0.1
+:toc: macro
+
+toc::[]
+
+== Overview
+
+When the classpath for a Gradle `JavaExec` or `Test` task is long, Windows command executions
+fail due to Windows path length limitations. The error usually seen in this case is
+`CreateProcess error=206, The filename or extension is too long`.
+
+This plugin uses the capability of JDK9+ to pass the classpath to the JVM in a files instead (see
+https://docs.oracle.com/javase/9/tools/java.htm#JSWOR-GUID-4856361B-8BFD-4964-AE84-121F5F6CF111[java
+Command-Line Argument Files], thus avoiding the OS limitation.
+
+In addition, this avoids modifying classloading or any other runtime behavior, which is not the
+case with other solutions such as ones that modify the classpath in the manifest. See:
+
+* https://github.com/virgo47/gradle-classpath-jar-plugin
+* https://github.com/eshepelyuk/gradle-util-plugins
+* https://plugins.gradle.org/plugin/com.github.ManifestClasspath
+
+This plugin takes inspiration from those plugins, but operates in a completely different way.
+
+== Version Compatibility
+
+* Gradle 5.1+ (may work on earlier versions, but untested)
+* Java 9+.
+
+== Installation
+
+Follow the steps described at https://plugins.gradle.org/plugin/com.redock.classpathtofile[Gradle
+Plugin Portal page].
