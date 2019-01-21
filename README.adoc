@@ -25,6 +25,14 @@ case with other solutions such as ones that modify the classpath in the manifest
 
 This plugin takes inspiration from those plugins, but operates in a completely different way.
 
+See this answer to
+https://stackoverflow.com/questions/201816/how-to-set-a-long-java-classpath-in-windows/54270831#54270831[How
+to set a long Java classpath in Windows?] at StackOverflow for more details about this solution.
+
+See this upstream Gradle issue about potentially providing a solution to this problem in
+Gradle core: https://github.com/gradle/gradle/issues/1989. Hopefully an upstream solution to
+this will eliminate the need for this plugin.
+
 == Version Compatibility
 
 * Gradle 5.1+ (may work on earlier versions, but untested)
