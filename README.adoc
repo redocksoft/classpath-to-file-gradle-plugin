@@ -35,16 +35,18 @@ this will eliminate the need for this plugin.
 
 == Version Compatibility
 
-* Gradle 5.1+ (may work on earlier versions, but untested)
-* Java 9+.
+* Gradle 8.8+ (may work on earlier versions, but untested)
+* Java 8+.
+
+⚠ Works only if https://docs.gradle.org/current/userguide/configuration_cache.html[configuration caching] is disabled ⚠
 
 == Installation
 
 Simply add:
 
-```
+```groovy
 plugins {
-  id 'com.redock.classpathtofile' version '0.0.1'
+  id 'com.redock.classpathtofile' version '0.1.0'
 }
 ```
 
