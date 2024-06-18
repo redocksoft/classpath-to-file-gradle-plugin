@@ -31,7 +31,7 @@ abstract class AbstractClasspathToFileActionListener: TaskActionListener {
 
     cpArgFile = File.createTempFile("classpath-${task.project.name.replace(" ", "_")}", null)
 
-    log.info("Moving java classpath to argument file for task ${task.name}")
+    log.info("Moving java classpath to argument file $cpArgFile for task ${task.name}")
     jvmArgumentProviders.add(CommandLineArgumentProvider {
       listOf("@$cpArgFile")
     })
