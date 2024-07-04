@@ -33,6 +33,13 @@ See this upstream Gradle issue about potentially providing a solution to this pr
 Gradle core: https://github.com/gradle/gradle/issues/1989. Hopefully an upstream solution to
 this will eliminate the need for this plugin.
 
+== Notes on Modularity
+
+This plugin tries to detect if the current project is modularized.
+If it is, the `module-path` is adapted instead of the class path.
+Since the classpath variable of gradle is cleared after the patch, plugins relying on it stop working.
+As a consequence, this plugin cannot be used together with https://github.com/java9-modularity/gradle-modules-plugin[org.javamodularity.moduleplugin].
+
 == Version Compatibility
 
 * Gradle 8.8+ (may work on earlier versions, but untested)
