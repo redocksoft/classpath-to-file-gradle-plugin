@@ -26,7 +26,8 @@ abstract class AbstractClasspathToFileActionListener: TaskActionListener {
   fun classpathToFile(
     task: Task,
     jvmArgumentProviders: MutableList<CommandLineArgumentProvider>,
-    classpath: FileCollection
+    classpath: FileCollection,
+    isModule: Boolean
   ) {
 
     cpArgFile = File.createTempFile("classpath-${task.project.name.replace(" ", "_")}", null)
@@ -39,7 +40,12 @@ abstract class AbstractClasspathToFileActionListener: TaskActionListener {
     // TODO this doesn't currently handle wildcards, we should expand wildcards before writing to the arg file
     // see https://docs.oracle.com/javase/9/tools/java.htm#JSWOR-GUID-4856361B-8BFD-4964-AE84-121F5F6CF111
     OutputStreamWriter(FileOutputStream(cpArgFile), Charsets.UTF_8).use {
-      it.write("-cp \"\\")
+      if (isModule) {
+        it.write("--module-path")
+      } else {
+        it.write("-cp")
+      }
+      it.write(" \"\\")
       it.write(LINE_SEP)
       classpath.files.forEachIndexed { i, file  ->
         if(i > 0) {

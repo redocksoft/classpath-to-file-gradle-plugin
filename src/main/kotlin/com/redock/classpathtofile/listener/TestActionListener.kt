@@ -15,7 +15,7 @@ class TestActionListener(private val extension: ClasspathToFilePluginExtension):
       return
     }
 
-    classpathToFile(task, task.jvmArgumentProviders, task.classpath)
+    classpathToFile(task, task.jvmArgumentProviders, task.classpath, false)
     task.classpath = EmptyFileCollection
   }
 }
