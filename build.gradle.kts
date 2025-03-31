@@ -34,7 +34,7 @@ repositories {
 
 dependencies {
   compileOnly(gradleApi())
-  implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.0")
+  implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.20")
 
   testCompileOnly(gradleTestKit())
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
