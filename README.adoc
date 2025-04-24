@@ -20,7 +20,6 @@ case with other solutions such as ones that modify the classpath in the manifest
 
 * https://github.com/viswaramamoorthy/gradle-util-plugins
 * https://github.com/virgo47/gradle-classpath-jar-plugin
-* https://plugins.gradle.org/plugin/com.github.ManifestClasspath
 
 This plugin takes inspiration from those plugins, but operates in a completely different way.
 
