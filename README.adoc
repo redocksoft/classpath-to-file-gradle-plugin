@@ -19,7 +19,6 @@ In addition, this avoids modifying classloading or any other runtime behavior, w
 case with other solutions such as ones that modify the classpath in the manifest. See:
 
 * https://github.com/viswaramamoorthy/gradle-util-plugins
-* https://github.com/eshepelyuk/gradle-util-plugins
 * https://github.com/virgo47/gradle-classpath-jar-plugin
 * https://plugins.gradle.org/plugin/com.github.ManifestClasspath
 
